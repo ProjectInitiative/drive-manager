@@ -12,3 +12,19 @@ impl Args {
         Self { dryrun, config, threads }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_parse() {
+        std::env::set_var("DRYRUN", "true");
+        std::env::set_var("CONFIG", "/path/to/config");
+        std::env::set_var("THREADS", "8");
+        let args = Args::parse();
+        assert!(args.dryrun);
+        assert_eq!(args.config, "/path/to/config");
+        assert_eq!(args.threads, 8);
+    }
+}
